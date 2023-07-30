@@ -3,6 +3,9 @@ import Text from "./Text";
 import FormikTextInput from "./FormikTextInput";
 import { Formik } from "formik";
 import * as yup from "yup";
+import { useNavigate } from "react-router-native";
+
+import useSignIn from "../hooks/useSignIn";
 
 import { styles } from "./Text";
 
@@ -38,8 +41,18 @@ const SignInForm = ({ onSubmit }) => {
 };
 
 const SignIn = () => {
-  const onSubmit = (values) => {
-    console.log(values);
+  const navigate = useNavigate();
+  const [signIn] = useSignIn();
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+
+    try {
+      await signIn({ username, password });
+      navigate("/");
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
