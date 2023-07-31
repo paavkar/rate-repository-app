@@ -1,10 +1,11 @@
-import { View, Image } from "react-native";
+import { View, Image, Pressable } from "react-native";
 import Text from "./Text";
 import { styles } from "./Text";
+import * as Linking from "expo-linking";
 
 const RepositoryItem = ({ item }) => {
   return (
-    <View style={styles.flexContainerMain}>
+    <View testID="repositoryItem" style={styles.flexContainerMain}>
       <View style={styles.flexContainer}>
         <View style={styles.avatarContainer}>
           <Image
@@ -75,6 +76,15 @@ const RepositoryItem = ({ item }) => {
           <Text fontSize="body">Rating</Text>
         </View>
       </View>
+      {item.url ? (
+        <View style={styles.repository}>
+          <Pressable onPress={() => Linking.openURL(item.url)}>
+            <Text style={styles.form.text}>Open in GitHub</Text>
+          </Pressable>
+        </View>
+      ) : (
+        <></>
+      )}
     </View>
   );
 };

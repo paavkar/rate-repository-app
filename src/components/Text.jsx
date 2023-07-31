@@ -10,13 +10,30 @@ export const styles = StyleSheet.create({
     fontFamily: theme.fonts.main,
     fontWeight: theme.fontWeights.normal,
   },
+  circleContainer: {
+    display: "flex",
+    backgroundColor: "white",
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 15,
+    marginLeft: 10,
+    marginRight: 10,
+    borderColor: theme.colors.primary,
+    borderWidth: 2,
+  },
   errorText: {
     color: "#d73a4a",
     marginLeft: 20,
     marginRight: 20,
     marginTop: 5,
   },
-  signIn: {
+  repository: {
+    alignItems: "stretch",
+  },
+  form: {
     alignItems: "stretch",
     backgroundColor: "white",
     paddingBottom: 10,
@@ -44,6 +61,39 @@ export const styles = StyleSheet.create({
       color: "white",
     },
   },
+  review: {
+    flexDirection: "row",
+    alignContent: "stretch",
+    justifyContent: "space-evenly",
+    marginTop: 10,
+    view: {
+      textAlign: "center",
+      borderRadius: 4,
+      marginTop: 10,
+      marginBottom: 10,
+      paddingTop: 10,
+      paddingBottom: 10,
+      paddingLeft: 40,
+      paddingRight: 40,
+      backgroundColor: theme.colors.primary,
+      color: "white",
+    },
+    delete: {
+      justifyContent: "flex-end",
+      text: {
+        textAlign: "center",
+        borderRadius: 4,
+        marginTop: 10,
+        marginBottom: 10,
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingLeft: 40,
+        paddingRight: 40,
+        backgroundColor: "#d73a4a",
+        color: "white",
+      },
+    },
+  },
   avatarContainer: {
     flexGrow: 0,
   },
@@ -52,16 +102,14 @@ export const styles = StyleSheet.create({
     flexGrow: 1,
   },
   flexContainerMain: {
-    alignItems: "stretch",
     backgroundColor: "white",
-    paddingBottom: 15,
+    paddingBottom: 20,
   },
   infoContainer: {
     flexGrow: 1,
     marginTop: 15,
     flexShrink: 1,
   },
-
   flexItemC: {
     flexGrow: 0,
     flexDirection: "row",
@@ -87,15 +135,15 @@ export const styles = StyleSheet.create({
   },
   appBar: {
     container: {
-      paddingTop: Constants.statusBarHeight + 10,
+      paddingTop: Constants.statusBarHeight + 20,
       backgroundColor: theme.colors.textPrimary,
-      paddingBottom: 20,
       flexDirection: "row",
+      paddingBottom: 5,
     },
     text: {
       fontSize: theme.fontSizes.heading,
       color: "white",
-      paddingLeft: 10,
+      padding: 10,
     },
   },
   colorTextSecondary: {

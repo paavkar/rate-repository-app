@@ -1,41 +1,51 @@
-import { useState, useEffect } from "react";
-
 import { useQuery } from "@apollo/client";
 
 import { GET_REPOSITORIES } from "../graphql/queries";
 
-import Text from "../components/Text";
 
-const useRepositories = () => {
-  const [repositories, setRepositories] = useState();
-  //const [loadings, setLoading] = useState(false);
+const useRepositories = (selectedOrderOption, searchKeyword) => {
+  let orderBy = "";
+  let orderDirection = "";
 
-  const { data, loading } = useQuery(GET_REPOSITORIES, {
+  if (selectedOrderOption == "latest") {
+    orderBy = "CREATED_AT";
+    orderDirection = "DESC";
+  } else if (selectedOrderOption == "highest") {
+    orderBy = "RATING_AVERAGE";
+    orderDirection = "DESC";
+  } else if (selectedOrderOption == "lowest") {
+    orderBy = "RATING_AVERAGE";
+    orderDirection = "ASC";
+  }
+
+  const variables = { orderDirection: orderDirection, orderBy: orderBy, searchKeyword: searchKeyword, first: 20 };
+
+  const { data, loading, fetchMore, ...result } = useQuery(GET_REPOSITORIES, {
     fetchPolicy: "cache-and-network",
+    variables,
   });
 
-  const fetchRepositories = () => {
-    /*setLoading(true);
+  const handleFetchMore = () => {
+    const canFetchMore = !loading && data?.repositories.pageInfo.hasNextPage;
 
-    // Replace the IP address part with your own IP address!
-    const response = await fetch("http://192.168.1.113:5000/api/repositories");
-    const json = await response.json();
-    */
-
-    if (loading && !data) {
-      return <Text>loading...</Text>;
+    if (!canFetchMore) {
+      return;
     }
 
-    const repos = data.repositories;
-    //setLoading(false);
-    setRepositories(repos);
+    fetchMore({
+      variables: {
+        after: data.repositories.pageInfo.endCursor,
+        ...variables,
+      },
+    });
   };
 
-  useEffect(() => {
-    fetchRepositories();
-  }, [data]);
-
-  return { repositories };
+  return {
+    repositories: data?.repositories,
+    fetchMore: handleFetchMore,
+    loading,
+    ...result,
+  };
 };
 
 export default useRepositories;

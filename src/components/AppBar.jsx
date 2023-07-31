@@ -1,7 +1,10 @@
 import { View, Pressable, ScrollView } from "react-native";
 import { Link } from "react-router-native";
 import { useQuery } from "@apollo/client";
+import { useNavigate } from "react-router-native";
+
 import { GET_USER } from "../graphql/queries";
+
 import { useApolloClient } from "@apollo/client";
 import { useAuthStorage } from "../hooks/useAuthStorage";
 
@@ -27,6 +30,7 @@ const AppBar = () => {
   const { data } = useQuery(GET_USER);
   const authStorage = useAuthStorage();
   const apolloClient = useApolloClient();
+  const navigate = useNavigate();
 
   let user = null;
 
@@ -45,6 +49,7 @@ const AppBar = () => {
   const SignOut = async () => {
     await authStorage.removeAccessToken();
     apolloClient.resetStore();
+    navigate("/")
   };
 
   return (
@@ -56,17 +61,41 @@ const AppBar = () => {
           </Text>
         </Link>
         {user ? (
-          <Pressable onPress={() => SignOut()}>
-            <Text fontWeight="bold" style={styles.appBar.text}>
-              Sign Out
-            </Text>
-          </Pressable>
+          <View style={{flexDirection: "row"}}>
+
+            <Pressable onPress={() => navigate("/create")}>
+              <Text fontWeight="bold" style={styles.appBar.text}>
+                Create a review
+              </Text>
+            </Pressable>
+
+            <Pressable onPress={() => navigate("/reviews")}>
+              <Text fontWeight="bold" style={styles.appBar.text}>
+                My reviews
+              </Text>
+            </Pressable>
+
+            <Pressable onPress={() => SignOut()}>
+              <Text fontWeight="bold" style={styles.appBar.text}>
+                Sign Out
+              </Text>
+            </Pressable>
+
+          </View>
         ) : (
-          <Link to="/login">
+          <View style={{flexDirection: "row"}}>
+            <Link to="/login">
             <Text fontWeight="bold" style={styles.appBar.text}>
               Sign In
             </Text>
           </Link>
+          <Link to="/register">
+          <Text fontWeight="bold" style={styles.appBar.text}>
+            Sign Up
+          </Text>
+        </Link>
+          </View>
+          
         )}
       </ScrollView>
     </View>
